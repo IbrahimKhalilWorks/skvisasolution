@@ -230,7 +230,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let nextIndex = currentIndex + 1;
         if (nextIndex >= totalSlides) nextIndex = 0;
         updateSlider(nextIndex);
-      }, 3000);
+      }, 5000);
     }
 
     function resetAutoplay() {
@@ -245,29 +245,37 @@ document.addEventListener("DOMContentLoaded", function () {
   window.addEventListener("resize", updateSlides);
 });
 
+const backToTopBtn = document.querySelector(".back-to-top");
+
+window.addEventListener("scroll", () => {
+  backToTopBtn.style.display = window.scrollY > 300 ? "block" : "none";
+});
+
+backToTopBtn.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
 
 document.addEventListener("DOMContentLoaded", function () {
-    const track = document.querySelector(".unique-testimonial-track");
-    const dots = document.querySelectorAll(".unique-dot");
-    let currentIndex = 0;
-  
-    function updateTestimonial(index) {
-      track.style.transform = `translateX(-${index * 100}%)`;
-      dots.forEach((dot, i) => dot.classList.toggle("active", i === index));
-      currentIndex = index;
-    }
-  
-    dots.forEach((dot) => {
-      dot.addEventListener("click", function () {
-        updateTestimonial(parseInt(this.dataset.index));
-      });
+  const track = document.querySelector(".unique-testimonial-track");
+  const dots = document.querySelectorAll(".unique-dot");
+  let currentIndex = 0;
+
+  function updateTestimonial(index) {
+    track.style.transform = `translateX(-${index * 100}%)`;
+    dots.forEach((dot, i) => dot.classList.toggle("active", i === index));
+    currentIndex = index;
+  }
+
+  dots.forEach((dot) => {
+    dot.addEventListener("click", function () {
+      updateTestimonial(parseInt(this.dataset.index));
     });
-  
-    function autoSlide() {
-      currentIndex = (currentIndex + 1) % dots.length;
-      updateTestimonial(currentIndex);
-    }
-  
-    setInterval(autoSlide, 5000);
   });
-  
+
+  function autoSlide() {
+    currentIndex = (currentIndex + 1) % dots.length;
+    updateTestimonial(currentIndex);
+  }
+
+  setInterval(autoSlide, 5000);
+});
